@@ -19,7 +19,9 @@ if (!require('./package.json').optionalDependencies[packageName]) {
 
 const binary = os.platform() === 'win32' ? 'ffprobe.exe' : 'ffprobe';
 
-let appFolder = path.dirname(process.pkg ? process.execPath : (require.main ? require.main.filename : process.argv[0]));
+let appFolder = path.dirname(process.pkg ? process.execPath : process.argv[0]);
+const mainFilename = require.main ? require.main.filename : null;
+if (mainFilename) appFolder = mainFilename.substring(0, mainFilename.lastIndexOf('node_modules') + 12);
 
 const npm3Path = path.resolve(appFolder, '..', 'node_modules', packageName);
 const npm2Path = path.resolve(appFolder, 'node_modules', packageName);
